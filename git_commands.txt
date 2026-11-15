@@ -1,0 +1,165 @@
+GIT COMMANDS USED IN THIS ASSIGNMENT
+Name: Prince Kumar | Student ID: 2024eb02629
+Repository: https://github.com/princekumar0509/git-workflow-assignment
+======================================================================
+
+STEP 1: LOCAL REPOSITORY SETUP
+----------------------------------------------------------------------
+mkdir git-workflow-assignment
+    Creates the project folder on the local machine.
+
+ls
+    Lists the files in the folder (index.html and about.html were added).
+
+git init -b main
+    Initializes a new, empty Git repository in the current folder and
+    names the first branch "main".
+
+git status
+    Shows the state of the working directory: which files are untracked,
+    modified, or staged for the next commit.
+
+
+STEP 2: GIT WORKFLOW EXECUTION
+----------------------------------------------------------------------
+git add index.html about.html
+    Stages the two HTML files so they are included in the next commit.
+
+git commit -m "Initial commit: add index.html and about.html"
+    Records the staged files as the first snapshot (commit) of the project,
+    with a descriptive message.
+
+git status --short
+    Shows the working-directory status in a compact one-line-per-file form
+    (M = modified, ?? = untracked).
+
+git diff --stat
+    Summarizes the unstaged changes: which files changed and how many lines
+    were added or removed.
+
+git add about.html
+    Stages the modified about.html file.
+
+git commit -m "Update about.html with project details"
+    Creates the second commit containing the change to about.html.
+
+git branch feature
+    Creates a new branch named "feature" that points to the current commit.
+
+git branch
+    Lists all local branches; the current branch is marked with "*".
+
+git checkout feature
+    Switches the working directory to the "feature" branch.
+
+git add index.html
+    Stages the change made to index.html on the feature branch.
+
+git commit -m "Add navigation bar and footer to index.html (feature branch)"
+    Commits the change on the feature branch only; main is not affected.
+
+git log --oneline --all --graph
+    Shows the history of all branches as a compact graph, one commit per line.
+
+git checkout main
+    Switches back to the main branch.
+
+git merge --no-ff feature -m "Merge branch 'feature' into main"
+    Merges the feature branch into main. --no-ff always creates a merge
+    commit, so the branch and merge stay visible in the history.
+
+git log --oneline --graph --all --decorate
+    Displays the full commit history of all branches as a graph, with
+    branch names (main, feature, HEAD) shown next to their commits.
+
+git log --format='%h | %an | %ad | %s' --date=format:'%Y-%m-%d %H:%M:%S'
+    Displays the history with the short hash, author, date and message
+    of every commit.
+
+
+STEP 3: .GITIGNORE IMPLEMENTATION
+----------------------------------------------------------------------
+cat .gitignore
+    Prints the .gitignore file. It contains "*.log" (ignore every .log file)
+    and "temp/" (ignore the whole temp folder).
+
+ls -a
+    Lists all files including hidden ones, to show app.log and temp/ exist
+    on disk.
+
+git check-ignore -v app.log temp/cache.txt
+    Confirms the files are ignored and shows which .gitignore rule
+    (file:line:pattern) ignores each one.
+
+git add .gitignore
+    Stages the .gitignore file.
+
+git commit -m "Add .gitignore to ignore .log files and temp/ folder"
+    Commits the .gitignore so the ignore rules are shared with the repository.
+
+git status --short --ignored
+    Shows the status including ignored files ("!!" = ignored), proving
+    app.log and temp/ are not tracked.
+
+
+STEP 4: UNDO OPERATION
+----------------------------------------------------------------------
+git add contact.html
+    Stages the new contact.html file.
+
+git commit -m "Add contact.html page"
+    Makes the additional commit that will be undone.
+
+git log --oneline -3
+    Shows the last three commits.
+
+git revert --no-edit HEAD
+    Undoes the last commit by creating a NEW commit that reverses its
+    changes (contact.html is removed). The history is kept, which makes
+    revert the safe way to undo a commit that is shared on GitHub.
+    (--no-edit uses the default message "Revert ...".)
+
+git log --oneline -4
+    Shows that both the original commit and the revert commit are in
+    the history.
+
+git show --stat --format='%h %s' HEAD
+    Shows what the latest (revert) commit changed: contact.html deleted.
+
+Alternative (explained, not used):
+git reset --hard HEAD~1
+    Would also undo the last commit, but it deletes the commit from the
+    history, so it should not be used on commits already pushed.
+
+
+STEP 5: GITHUB INTEGRATION
+----------------------------------------------------------------------
+gh repo create git-workflow-assignment --public --description "..."
+    Creates a new, empty PUBLIC repository on GitHub using the GitHub CLI
+    (the same as clicking "New repository" on github.com).
+
+git remote add origin https://github.com/princekumar0509/git-workflow-assignment.git
+    Connects the local repository to the GitHub repository under the
+    name "origin".
+
+git remote -v
+    Lists the configured remotes and their fetch/push URLs.
+
+git push -u origin main
+    Uploads the main branch and its full history to GitHub; -u sets
+    origin/main as the upstream so later pushes need only "git push".
+
+git push -u origin feature
+    Uploads the feature branch to GitHub so the branch is visible there too.
+
+git branch -a
+    Lists local and remote-tracking branches (remotes/origin/...).
+
+
+STEP 6: COMMAND DOCUMENTATION
+----------------------------------------------------------------------
+git add git_commands.txt
+    Stages this documentation file.
+
+git commit -m "Add git_commands.txt documenting all Git commands used"
+    Commits this file so it is part of the repository on GitHub.
