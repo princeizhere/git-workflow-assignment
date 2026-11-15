@@ -1,185 +1,142 @@
-GIT COMMANDS USED IN THIS ASSIGNMENT
-Name: Prince Kumar | Student ID: 2024eb02629
-Repository: https://github.com/princeizhere/git-workflow-assignment
-======================================================================
+Git commands used in this assignment
+Prince Kumar (2024eb02629)
+Repo: https://github.com/princeizhere/git-workflow-assignment
 
-STEP 1: LOCAL REPOSITORY SETUP
-----------------------------------------------------------------------
+
+Step 1 - Local repository setup
+
 mkdir git-workflow-assignment
-    Creates the project folder on the local machine.
-
-ls
-    Lists the files in the folder (index.html and about.html were added).
+  makes the project folder. I then added index.html and about.html inside it.
 
 git init -b main
-    Initializes a new, empty Git repository in the current folder and
-    names the first branch "main".
+  turns the folder into a git repository. -b main names the first branch main.
 
 git status
-    Shows the state of the working directory: which files are untracked,
-    modified, or staged for the next commit.
+  shows which files are untracked, modified or staged.
 
 
-STEP 2: GIT WORKFLOW EXECUTION
-----------------------------------------------------------------------
+Step 2 - Commits, branch and merge
+
 git add index.html about.html
-    Stages the two HTML files so they are included in the next commit.
+  stages the two html files for the next commit.
 
 git commit -m "Initial commit: add index.html and about.html"
-    Records the staged files as the first snapshot (commit) of the project,
-    with a descriptive message.
+  saves the staged files as the first commit.
 
 git status --short
-    Shows the working-directory status in a compact one-line-per-file form
-    (M = modified, ?? = untracked).
+  short version of git status. M means modified.
 
 git diff --stat
-    Summarizes the unstaged changes: which files changed and how many lines
-    were added or removed.
+  shows which files changed and how many lines were added or removed.
 
 git add about.html
-    Stages the modified about.html file.
-
 git commit -m "Update about.html with project details"
-    Creates the second commit containing the change to about.html.
+  second commit, after I edited about.html.
 
 git branch feature
-    Creates a new branch named "feature" that points to the current commit.
+  creates a new branch called feature from the current commit.
 
 git branch
-    Lists all local branches; the current branch is marked with "*".
+  lists the local branches. The * shows the branch I am on.
 
 git checkout feature
-    Switches the working directory to the "feature" branch.
+  switches to the feature branch.
 
 git add index.html
-    Stages the change made to index.html on the feature branch.
-
 git commit -m "Add navigation bar and footer to index.html (feature branch)"
-    Commits the change on the feature branch only; main is not affected.
-
-git log --oneline --all --graph
-    Shows the history of all branches as a compact graph, one commit per line.
+  commit on the feature branch only. main does not get this change yet.
 
 git checkout main
-    Switches back to the main branch.
+  switches back to main.
 
 git merge --no-ff feature -m "Merge branch 'feature' into main"
-    Merges the feature branch into main. --no-ff always creates a merge
-    commit, so the branch and merge stay visible in the history.
+  merges feature into main. --no-ff makes git create a merge commit, so the
+  branch shows up in the history graph instead of a straight line.
 
 git log --oneline --graph --all --decorate
-    Displays the full commit history of all branches as a graph, with
-    branch names (main, feature, HEAD) shown next to their commits.
+  shows the commit history of all branches as a graph, one line per commit.
 
-git log --format='%h | %an | %ad | %s' --date=format:'%Y-%m-%d %H:%M:%S'
-    Displays the history with the short hash, author, date and message
-    of every commit.
+git log
+  full history with author, date and message for each commit.
 
 
-STEP 3: .GITIGNORE IMPLEMENTATION
-----------------------------------------------------------------------
+Step 3 - .gitignore
+
+.gitignore has two rules:
+  *.log   ignores every file ending in .log
+  temp/   ignores the whole temp folder
+
 cat .gitignore
-    Prints the .gitignore file. It contains "*.log" (ignore every .log file)
-    and "temp/" (ignore the whole temp folder).
+  prints the file.
 
-ls -a
-    Lists all files including hidden ones, to show app.log and temp/ exist
-    on disk.
+git status --ignored
+  also lists ignored files. app.log and temp/ show up here and not as untracked.
 
 git check-ignore -v app.log temp/cache.txt
-    Confirms the files are ignored and shows which .gitignore rule
-    (file:line:pattern) ignores each one.
+  tells which line of .gitignore is ignoring each file.
 
 git add .gitignore
-    Stages the .gitignore file.
-
 git commit -m "Add .gitignore to ignore .log files and temp/ folder"
-    Commits the .gitignore so the ignore rules are shared with the repository.
-
-git status --short --ignored
-    Shows the status including ignored files ("!!" = ignored), proving
-    app.log and temp/ are not tracked.
+  commits the .gitignore file.
 
 
-STEP 4: UNDO OPERATION
-----------------------------------------------------------------------
+Step 4 - Undo the last commit
+
 git add contact.html
-    Stages the new contact.html file.
-
 git commit -m "Add contact.html page"
-    Makes the additional commit that will be undone.
-
-git log --oneline -3
-    Shows the last three commits.
+  the extra commit that I then undid.
 
 git revert --no-edit HEAD
-    Undoes the last commit by creating a NEW commit that reverses its
-    changes (contact.html is removed). The history is kept, which makes
-    revert the safe way to undo a commit that is shared on GitHub.
-    (--no-edit uses the default message "Revert ...".)
+  undoes the last commit by making a new commit with the opposite change, so
+  contact.html gets deleted again. The old commit stays in the history, which
+  is why I used revert and not reset (the repo was going on GitHub).
 
-git log --oneline -4
-    Shows that both the original commit and the revert commit are in
-    the history.
-
-git show --stat --format='%h %s' HEAD
-    Shows what the latest (revert) commit changed: contact.html deleted.
-
-Alternative (explained, not used):
 git reset --hard HEAD~1
-    Would also undo the last commit, but it deletes the commit from the
-    history, so it should not be used on commits already pushed.
+  (not used) would also remove the last commit, but it deletes it from the
+  history, so it is not safe for commits that are already pushed.
+
+ls
+  to check that contact.html is gone after the revert.
 
 
-STEP 5: GITHUB INTEGRATION
-----------------------------------------------------------------------
-gh repo create git-workflow-assignment --public --description "..."
-    Creates a new, empty PUBLIC repository on GitHub using the GitHub CLI
-    (the same as clicking "New repository" on github.com).
+Step 5 - GitHub
 
-git remote add origin https://github.com/princeizhere/git-workflow-assignment.git
-    Connects the local repository to the GitHub repository under the
-    name "origin".
+gh repo create git-workflow-assignment --public
+  creates an empty public repo on GitHub from the terminal. I did this only
+  after all the local commits.
+
+git remote add origin https://github.com/princekumar0509/git-workflow-assignment.git
+  connects the local repo to GitHub with the name origin.
 
 git remote set-url origin https://github.com/princeizhere/git-workflow-assignment.git
-    Changes the URL of the "origin" remote. My GitHub username was renamed
-    (princekumar0509 -> princeizhere), so the remote had to point to the
-    new URL before pushing.
+  my GitHub username changed from princekumar0509 to princeizhere, so I had
+  to fix the remote url before the push worked.
 
 git remote -v
-    Lists the configured remotes and their fetch/push URLs.
+  shows the remote url.
 
 git push -u origin main
-    Uploads the main branch and its full history to GitHub; -u sets
-    origin/main as the upstream so later pushes need only "git push".
+  uploads main with all its history. -u links local main to origin/main.
 
 git push -u origin feature
-    Uploads the feature branch to GitHub so the branch is visible there too.
-
-git branch -a
-    Lists local and remote-tracking branches (remotes/origin/...).
-
-git reflog --date=iso
-    Shows every operation that moved HEAD (commit, checkout, merge, revert)
-    in order with timestamps - a complete record of the workflow.
-
-git ls-remote origin
-    Lists the branches that exist on GitHub and the commit each points to,
-    confirming the push succeeded.
-
-
-STEP 6: COMMAND DOCUMENTATION
-----------------------------------------------------------------------
-git add git_commands.txt
-    Stages this documentation file.
-
-git commit -m "Add git_commands.txt documenting all Git commands used"
-    Commits this file so it is part of the repository on GitHub.
-
-git commit -am "Update repository URL in git_commands.txt"
-    Stages all modified tracked files and commits them in one step
-    (used to update the URL in this file after the username change).
+  uploads the feature branch too.
 
 git push
-    Pushes new commits on the current branch to its upstream (origin/main).
+  pushes new commits after the upstream is set.
+
+git branch -a
+  lists local and remote branches.
+
+git reflog
+  list of everything that moved HEAD (commits, checkouts, merge, revert).
+
+
+Step 6
+
+git add git_commands.txt
+git commit -m "Add git_commands.txt documenting all Git commands used"
+  adds this file to the repo.
+
+git commit -am "message"
+  stages all changed tracked files and commits in one go. I used it when
+  I updated this file.
