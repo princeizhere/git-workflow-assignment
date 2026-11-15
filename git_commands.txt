@@ -1,6 +1,6 @@
 GIT COMMANDS USED IN THIS ASSIGNMENT
 Name: Prince Kumar | Student ID: 2024eb02629
-Repository: https://github.com/princekumar0509/git-workflow-assignment
+Repository: https://github.com/princeizhere/git-workflow-assignment
 ======================================================================
 
 STEP 1: LOCAL REPOSITORY SETUP
@@ -138,9 +138,14 @@ gh repo create git-workflow-assignment --public --description "..."
     Creates a new, empty PUBLIC repository on GitHub using the GitHub CLI
     (the same as clicking "New repository" on github.com).
 
-git remote add origin https://github.com/princekumar0509/git-workflow-assignment.git
+git remote add origin https://github.com/princeizhere/git-workflow-assignment.git
     Connects the local repository to the GitHub repository under the
     name "origin".
+
+git remote set-url origin https://github.com/princeizhere/git-workflow-assignment.git
+    Changes the URL of the "origin" remote. My GitHub username was renamed
+    (princekumar0509 -> princeizhere), so the remote had to point to the
+    new URL before pushing.
 
 git remote -v
     Lists the configured remotes and their fetch/push URLs.
@@ -155,6 +160,14 @@ git push -u origin feature
 git branch -a
     Lists local and remote-tracking branches (remotes/origin/...).
 
+git reflog --date=iso
+    Shows every operation that moved HEAD (commit, checkout, merge, revert)
+    in order with timestamps - a complete record of the workflow.
+
+git ls-remote origin
+    Lists the branches that exist on GitHub and the commit each points to,
+    confirming the push succeeded.
+
 
 STEP 6: COMMAND DOCUMENTATION
 ----------------------------------------------------------------------
@@ -163,3 +176,10 @@ git add git_commands.txt
 
 git commit -m "Add git_commands.txt documenting all Git commands used"
     Commits this file so it is part of the repository on GitHub.
+
+git commit -am "Update repository URL in git_commands.txt"
+    Stages all modified tracked files and commits them in one step
+    (used to update the URL in this file after the username change).
+
+git push
+    Pushes new commits on the current branch to its upstream (origin/main).
